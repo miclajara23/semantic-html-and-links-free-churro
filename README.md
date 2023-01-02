@@ -12,9 +12,9 @@ Semantic HTML, navigation, relative paths, `<img>` and its attributes.
 
 ## ⌨️ Update your  main `index.html` file
 
-### :keyboard: Add block-level semantic elements inside `<body>`
+### Add block-level semantic elements inside `<body>`
 
-| :bulb: For review of semantic elements                                                                                                                                                                                                                                                                                                            |
+| 💡 For review of semantic elements                                                                                                                                                                                                                                                                                                            |
 | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | <ul><li>See w3school's [HTML semantic elements](https://www.w3schools.com/html/html5_semantic_elements.asp) for a helpful summary and list of tags.</li><li>Read the individual element's pages on MDN in the list in their [Semantics in HTML](https://developer.mozilla.org/en-US/docs/Glossary/Semantics#semantics_in_html) section.</li></ul> |
 
@@ -22,7 +22,7 @@ After copying your `index.html` file from your _First web page_ assignment, open
 
 Below, I will give you a list of elements to add to your main page. Use your site topic to add content (text) inside the elements. The content is not as important as the structure of the page, so don't worry about spending a lot of time on writing "perfect" content.
 
-| :bulb: Using Emmet abbreviations                                                                                                                                                                                                                                                        |
+| 💡 Using Emmet abbreviations                                                                                                                                                                                                                                                        |
 | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | You can use Emmet abbreviations to quickly add HTML tags. Reference the [Emmet cheat sheet](https://docs.emmet.io/cheat-sheet/) for a list of abbreviations. See if you can come up with a one-line Emmet abbreviation that can generate all the tags listed in the requirements above. |
 
@@ -42,7 +42,7 @@ Below, I will give you a list of elements to add to your main page. Use your sit
   </tr>
 </table>
 
-Add the following elements:
+Add the following elements. The `<header>`, `<main>`, `<aside>` and `<footer>` elements should be _top level_ or direct children of `<body>`. In other words, don't nest them inside each other. Your `<h1>` and `<p>` can be top level also as we will eventually move the to a hero section:
 
 - `<header>`
   - Inside `<header>` add a `<nav>`
@@ -55,9 +55,16 @@ Add the following elements:
 
 ### 📷 `<figure>` element
 
-Add a `<figure>` to your page. Inside an `<article>` is fine, although we will eventually remove the`<figure>`. Add an image inside your `<figure>` element. You can use [Unsplash](https://unsplash.com/) to find images, but you must resize any image to 900px wide or less. [befunky](https://www.befunky.com/create/) is a free online site where you can easily crop and resize images. NOTE: _save the original picture. We will need larger sizes in later assignments._
+Add a `<figure>` to your page inside an `<article>`.
 
-Add a `<figcaption>` element with a caption for the image.
+You can use [Unsplash](https://unsplash.com/) to find images, but you must resize any image to 900px wide or less. [befunky](https://www.befunky.com/create/) is a free online site where you can easily crop and resize images.
+
+|⚠️ Save your original images.|
+|:---|
+| We will need larger image sizes in later assignments. If you resize an image, save the original first. Place the original in an `originals` folder inside your `images` folder, or append `.original` (or something similar) to the file name. |
+
+Your `<figure>` should include an `<img>` and a `<figcaption>`.
+
 
 The image must be
 
@@ -86,13 +93,13 @@ The image element must
 
 #### 🤯 Using Emmet to auto-generate the `height` and `width` attributes
 
-VS Code has a command **Emmet: Update Image Size** that will automatically add the `height` and `width` attributes to an `<img>` element.
+VS Code has a command **Emmet: Update Image Size** that will automatically add the `height` and `width` attributes to an `<img>` element so you don't have to look them up.
 
 ![emmet image size](readme-assets/emmet-image-size.gif)
 
 ### :pencil: Text-level semantic elements
 
-Somewhere on your page, include the following text-level semantic elements with content in each:
+Somewhere on your main `index.html` page, include the following text-level semantic elements with content in each:
 
 - `<strong>`
 - `<em>`
@@ -103,15 +110,15 @@ Open both the `about/index.html` and `contact/index.html` files that were includ
 
 - Set the title
 - Add a meta description
-- Copy your favicon info from your main `index.html` and paste it in the `<head>` of both those files.
+- Copy the 4 lines of favicon info from the `<head>` of your main `index.html` and paste it in the `<head>` of both those files. Modify the path to the `images` folder to be relative to the `about` and `contact` folders.
 
-Feel free to modify the your About and Contact pages to include more content. We will eventually add a form to the Contact page, but for now, just add some text.
+Feel free to modify the your About and Contact pages to include more content. We will eventually add a form to the Contact page.
 
 ## Add links to the navigation menus
 
 | :bulb: Relative links                                                                                                                                                                                                                                                                                                                                                |
 | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Review MDN's [A quick primer on URLs and paths](https://developer.mozilla.org/en-US/docs/Learn/HTML/Introduction_to_HTML/Creating_hyperlinks#a_quick_primer_on_urls_and_paths) for a review of relative links. Since the target files in the subfolders and named `index.html`, you don't need to include `index.html` in the paths. This generates a "cleaner" URL. |
+| Review MDN's [A quick primer on URLs and paths](https://developer.mozilla.org/en-US/docs/Learn/HTML/Introduction_to_HTML/Creating_hyperlinks#a_quick_primer_on_urls_and_paths) for a review of relative links. Since the target files in the subfolders are named `index.html`, you don't need to include `index.html` in the paths. This generates a "cleaner" URL. |
 
 - In your main `index.html` navigation menu, add relative links to the About and Contact pages. Don't add `index.html` to the paths; use only folder names and end the link with a `/` to indicate the last value is a folder.
 - Do the same for the About and Contact pages.
@@ -191,7 +198,10 @@ If you see a yellow dot, it means that the test is still running. Wait for the t
       - main index.html has a `<header>` containing a `<nav>` and a `<ul>`
       - about index.html has a `<header>` containing a `<nav>` and a `<ul>`
       - contact index.html has a `<header>` containing a `<nav>` and a `<ul>`
-  - MAIN index.html SPECIFIC
+      - main index.html - relative paths used in main menu; paths do not end with 'index.html'
+      - about index.html - relative paths used in main menu; paths do not end with 'index.html'
+      - contact index.html - relative paths used in main menu; paths do not end with 'index.html'
+  - MAIN index.html ONLY
     - contains `<figure>` with one image and a `<figcaption>`
     - contains a `<main>`
     - `<main>` contains at least two `<article>` elements

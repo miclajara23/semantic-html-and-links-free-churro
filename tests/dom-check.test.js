@@ -123,7 +123,7 @@ describe("\nGeneral HTML structure\n-----------------------", () => {
       );
 
       test.each(docs)(
-        "$name - relative paths used in main menu; paths do not end with 'index.html'",
+        "$name index.html - relative paths used in main menu; paths do not end with 'index.html'",
         ({ dom, name }) => {
           const navLinks = dom.querySelectorAll("header>nav a");
           console.log(`navLinks: ${navLinks.length}\n`);

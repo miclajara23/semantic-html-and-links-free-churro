@@ -121,95 +121,129 @@ describe("\nGeneral HTML structure\n-----------------------", () => {
           ).not.toBeNull();
         }
       );
+
+      test.each(docs)(
+        "$name - relative paths used in main menu; paths do not end with 'index.html'",
+        ({ dom, name }) => {
+          const navLinks = dom.querySelectorAll("header>nav a");
+          console.log(`navLinks: ${navLinks.length}\n`);
+          console.log(navLinks);
+          let errors = [];
+          navLinks.forEach(link => {
+            console.log(`count ${link.length} - current link: ${link.href}`);
+            if (link.href) {
+              if (link.href.match(/^http/)) {
+                errors.push(`do not use absolute path: ${link}`);
+              }
+              if (link.href.match(/^\.\/|^\//)) {
+                errors.push(
+                  `do not begin relative paths with './' or '/': ${link}`
+                );
+              }
+              if (link.href.match(/index.html/)) {
+                errors.push(`do not include 'index.html' in path: ${link}`);
+              } else if (!link.href.match(/\/$/)) {
+                errors.push(
+                  `end relative paths to folder containing index.html with '/': ${link}`
+                );
+              }
+            }
+          });
+          expect(
+            errors.length,
+            `${name} index.html:\n\t\t ${errors.join("\n\t\t")}`
+          ).toBe(0);
+        }
+      );
+    });
+  });
+});
+
+describe("MAIN index.html ONLY", () => {
+  test("contains <figure> with one image and a <figcaption>", () => {
+    const figure = docs[INDEX].dom.querySelector("figure");
+    expect(figure, "no <figure> found").not.toBeNull();
+    if (figure) {
+      expect(
+        figure.querySelector("img"),
+        "<figure> does not contain an <img>"
+      ).not.toBeNull();
+      expect(
+        figure.querySelector("figcaption"),
+        "no <figcaption> in <figure>"
+      ).not.toBeNull();
+    }
+  });
+
+  test("contains a <main>", () =>
+    expect(
+      docs[INDEX].dom.querySelector("main"),
+      "no <main> found"
+    ).not.toBeNull());
+
+  test("<main> contains at least two <article> elements", () => {
+    const articles = docs[INDEX].dom.querySelectorAll("article");
+    expect(
+      articles.length,
+      `<main> contains ${articles.length} <article> elements`
+    ).toBeGreaterThanOrEqual(2);
+  });
+
+  // TODO append 'and an <a class="button">'
+  test("<article> elements contain an <h2> and at least one <p>", () => {
+    const articles = docs[INDEX].dom.querySelectorAll("article");
+    expect(articles.length, "no <article> found").toBeGreaterThan(0);
+    articles.forEach((article, i) => {
+      expect(
+        article.querySelector("h2"),
+        `<article> number ${i + 1} missing an <h2>`
+      ).not.toBeNull();
+      expect(
+        article.querySelectorAll("p"),
+        `<article> number ${i + 1} missing a <p>`
+      ).not.toBeNull();
+      // expect(
+      //   article.querySelector("a.button"),
+      //   `<article> number ${i + 1} does not have an <a class="button">`
+      // ).not.toBeNull();
     });
   });
 
-  describe("MAIN index.html SPECIFIC", () => {
-    test("contains <figure> with one image and a <figcaption>", () => {
-      const figure = docs[INDEX].dom.querySelector("figure");
-      expect(figure, "no <figure> found").not.toBeNull();
-      if (figure) {
-        expect(
-          figure.querySelector("img"),
-          "<figure> does not contain an <img>"
-        ).not.toBeNull();
-        expect(
-          figure.querySelector("figcaption"),
-          "no <figcaption> in <figure>"
-        ).not.toBeNull();
-      }
-    });
-
-    test("contains a <main>", () =>
-      expect(
-        docs[INDEX].dom.querySelector("main"),
-        "no <main> found"
-      ).not.toBeNull());
-
-    test("<main> contains at least two <article> elements", () => {
-      const articles = docs[INDEX].dom.querySelectorAll("article");
-      expect(
-        articles.length,
-        `<main> contains ${articles.length} <article> elements`
-      ).toBeGreaterThanOrEqual(2);
-    });
-
-    // TODO append 'and an <a class="button">'
-    test("<article> elements contain an <h2> and at least one <p>", () => {
-      const articles = docs[INDEX].dom.querySelectorAll("article");
-      expect(articles.length, "no <article> found").toBeGreaterThan(0);
-      articles.forEach((article, i) => {
-        expect(
-          article.querySelector("h2"),
-          `<article> number ${i + 1} missing an <h2>`
-        ).not.toBeNull();
-        expect(
-          article.querySelectorAll("p"),
-          `<article> number ${i + 1} missing a <p>`
-        ).not.toBeNull();
-        // expect(
-        //   article.querySelector("a.button"),
-        //   `<article> number ${i + 1} does not have an <a class="button">`
-        // ).not.toBeNull();
-      });
-    });
-
-    // aside and footer tests
-    test("contains an <aside> with text inside a <p>", () => {
-      expect(
-        docs[INDEX].dom.querySelector("aside"),
-        "no <aside> found"
-      ).not.toBeNull();
-      expect(
-        docs[INDEX].dom.querySelector("aside  p"),
-        "<aside> does not contain a <p>"
-      ).not.toBeNull();
-    });
-
-    test("contains a <footer> with text inside a <p>", () => {
-      expect(
-        docs[INDEX].dom.querySelector("footer"),
-        "no <footer> found"
-      ).not.toBeNull();
-      expect(
-        docs[INDEX].dom.querySelector("footer p"),
-        "<footer> does not contain a <p>"
-      ).not.toBeNull();
-    });
-
-    // text-level semantics tests
-    test("uses at least one instance of <strong>", () =>
-      expect(
-        docs[INDEX].dom.querySelector("strong"),
-        "no <strong> found"
-      ).not.toBeNull());
-
-    test("uses at least one instance of <em>", () =>
-      expect(
-        docs[INDEX].dom.querySelector("em"),
-        "no <em> found"
-      ).not.toBeNull());
+  // aside and footer tests
+  test("contains an <aside> with text inside a <p>", () => {
+    expect(
+      docs[INDEX].dom.querySelector("aside"),
+      "no <aside> found"
+    ).not.toBeNull();
+    expect(
+      docs[INDEX].dom.querySelector("aside  p"),
+      "<aside> does not contain a <p>"
+    ).not.toBeNull();
   });
+
+  test("contains a <footer> with text inside a <p>", () => {
+    expect(
+      docs[INDEX].dom.querySelector("footer"),
+      "no <footer> found"
+    ).not.toBeNull();
+    expect(
+      docs[INDEX].dom.querySelector("footer p"),
+      "<footer> does not contain a <p>"
+    ).not.toBeNull();
+  });
+
+  // text-level semantics tests
+  test("uses at least one instance of <strong>", () =>
+    expect(
+      docs[INDEX].dom.querySelector("strong"),
+      "no <strong> found"
+    ).not.toBeNull());
+
+  test("uses at least one instance of <em>", () =>
+    expect(
+      docs[INDEX].dom.querySelector("em"),
+      "no <em> found"
+    ).not.toBeNull());
 });
 
 // TODO: check for no images
